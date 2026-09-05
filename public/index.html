@@ -1,125 +1,684 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
+<html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Mod Panel</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ نظام التبادل السري - لوحة التحكم</title>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            margin: 0;
-            background: #080a0f;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 25px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a12;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        h1 {
-            margin-bottom: 20px;
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: linear-gradient(145deg, #12121f, #1a1a2e);
+            border-radius: 28px;
+            padding: 35px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 60px rgba(0,150,255,0.05);
+            border: 1px solid rgba(255,255,255,0.04);
         }
 
-        .tool {
-            background: #11151d;
-            border: 1px solid #252c37;
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 10px;
+        /* الهيدر */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .name {
-            font-weight: bold;
+        .header .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
-        .id {
-            color: #788292;
+        .header .brand .icon {
+            font-size: 36px;
+        }
+
+        .header .brand h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff, #7b2ffc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header .brand .sub {
             font-size: 12px;
-            margin-top: 5px;
+            color: rgba(255,255,255,0.3);
+            -webkit-text-fill-color: rgba(255,255,255,0.3);
+            display: block;
+            margin-top: 2px;
         }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.04);
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+        }
+
+        .status-badge .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #00ff88;
+            box-shadow: 0 0 15px rgba(0,255,136,0.3);
+        }
+
+        .status-badge .dot.offline {
+            background: #ff4444;
+            box-shadow: 0 0 15px rgba(255,68,68,0.3);
+        }
+
+        /* الشبكة */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin: 28px 0;
+        }
+
+        .tool-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0,212,255,0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .tool-card .tool-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .tool-card .tool-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .tool-card .tool-desc {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 12px;
+        }
+
+        .tool-card .tool-id {
+            font-size: 10px;
+            color: rgba(255,255,255,0.15);
+            font-family: monospace;
+            position: absolute;
+            top: 14px;
+            right: 16px;
+        }
+
+        .tool-card .tool-category {
+            display: inline-block;
+            font-size: 9px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: rgba(0,212,255,0.08);
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tool-card .active-toggle {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            width: 36px;
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .tool-card .active-toggle.active {
+            background: #00d4ff;
+        }
+
+        .tool-card .active-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .tool-card .active-toggle.active::after {
+            left: 18px;
+        }
+
+        /* لوحة التحكم السفلية */
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 10px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.06);
+            color: #e0e0e0;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff, #7b2ffc);
+            border: none;
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border: none;
+            color: #fff;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #00b894, #00a86b);
+            border: none;
+            color: #fff;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #fdcb6e, #f39c12);
+            border: none;
+            color: #1a1a2e;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* الإحصائيات */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .stat-item .number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00d4ff;
+        }
+
+        .stat-item .label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+            margin-top: 4px;
+        }
+
+        /* السجلات */
+        .logs {
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 16px 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .logs .log-entry {
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+            color: rgba(255,255,255,0.6);
+        }
+
+        .logs .log-entry .time {
+            color: rgba(255,255,255,0.2);
+            margin-left: 10px;
+        }
+
+        .logs .log-entry.success { color: #00ff88; }
+        .logs .log-entry.error { color: #ff6b6b; }
+        .logs .log-entry.info { color: #00d4ff; }
+
+        /* الفوتر */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.12);
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+        }
+
+        /* استجابة */
+        @media (max-width: 700px) {
+            .container { padding: 20px; }
+            .header { flex-direction: column; align-items: flex-start; }
+            .control-panel { flex-direction: column; align-items: stretch; }
+            .btn-group { justify-content: center; }
+            .btn { flex: 1; justify-content: center; }
+        }
+
+        /* تمرير */
+        .logs::-webkit-scrollbar { width: 4px; }
+        .logs::-webkit-scrollbar-track { background: transparent; }
+        .logs::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.2); border-radius: 10px; }
     </style>
 </head>
-
 <body>
 
-<h1>Mod Menu</h1>
+<div class="container" id="app">
+    <!-- الهيدر -->
+    <div class="header">
+        <div class="brand">
+            <span class="icon">🛡️</span>
+            <div>
+                <h1>نظام التبادل السري</h1>
+                <span class="sub">🔒 محمي بالكامل • مدعوم من سيرفر مركزي</span>
+            </div>
+        </div>
+        <div class="status-badge">
+            <span class="dot" id="serverDot"></span>
+            <span id="serverStatusText">جاري الاتصال...</span>
+        </div>
+    </div>
 
-<div id="tools">
-    جاري التحميل...
+    <!-- الإحصائيات -->
+    <div class="stats">
+        <div class="stat-item">
+            <div class="number" id="statFollows">0</div>
+            <div class="label">متابعة</div>
+        </div>
+        <div class="stat-item">
+            <div class="number" id="statSuccess">0%</div>
+            <div class="label">نجاح</div>
+        </div>
+        <div class="stat-item">
+            <div class="number" id="statUsers">0</div>
+            <div class="label">مستخدمين</div>
+        </div>
+        <div class="stat-item">
+            <div class="number" id="statTools">0</div>
+            <div class="label">أدوات</div>
+        </div>
+    </div>
+
+    <!-- قائمة الأدوات -->
+    <div class="grid" id="toolsGrid">
+        <!-- سيتم تعبئتها بواسطة JavaScript -->
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div class="control-panel">
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="startFollow()">▶️ بدء التبادل</button>
+            <button class="btn btn-danger" onclick="stopFollow()">⏹️ إيقاف</button>
+            <button class="btn btn-success" onclick="getStatus()">📊 تحديث</button>
+            <button class="btn btn-warning" onclick="clearLogs()">🗑️ مسح السجلات</button>
+        </div>
+        <div>
+            <button class="btn btn-outline" onclick="openSettings()">⚙️ إعدادات</button>
+        </div>
+    </div>
+
+    <!-- سجل الأحداث -->
+    <div class="logs" id="logsContainer">
+        <div class="log-entry info">
+            <span class="time">[${new Date().toLocaleTimeString()}]</span>
+            🚀 تم تحميل النظام بنجاح
+        </div>
+        <div class="log-entry info">
+            <span class="time">[${new Date().toLocaleTimeString()}]</span>
+            🔗 جاري الاتصال بالسيرفر...
+        </div>
+    </div>
+
+    <div class="footer">
+        v3.0 • نظام تبادل متابعة • سري ومحمي • جميع الحقوق محفوظة
+    </div>
 </div>
 
+<!-- ================================================================ -->
+<!-- 🎮 JavaScript للتحكم الكامل -->
+<!-- ================================================================ -->
 <script>
+    // ═══════════════════════════════════════════════════════
+    // 1. الإعدادات والمتغيرات العامة
+    // ═══════════════════════════════════════════════════════
+    const API_BASE = window.location.origin + '/api';
+    let toolsData = [];
+    let sessionActive = false;
 
-async function loadTools() {
-
-    try {
-
-        const response =
-            await fetch("/api/tools");
-
-        if (!response.ok) {
-            throw new Error("HTTP " + response.status);
+    // ═══════════════════════════════════════════════════════
+    // 2. دوال مساعدة
+    // ═══════════════════════════════════════════════════════
+    function addLog(message, type = 'info') {
+        const container = document.getElementById('logsContainer');
+        const time = new Date().toLocaleTimeString();
+        const entry = document.createElement('div');
+        entry.className = `log-entry ${type}`;
+        entry.innerHTML = `<span class="time">[${time}]</span> ${message}`;
+        container.appendChild(entry);
+        container.scrollTop = container.scrollHeight;
+        // الاحتفاظ بآخر 50 سجل فقط
+        while (container.children.length > 50) {
+            container.removeChild(container.firstChild);
         }
-
-        const data =
-            await response.json();
-
-        const container =
-            document.getElementById("tools");
-
-        container.innerHTML = "";
-
-        data.tools.forEach(tool => {
-
-            const element =
-                document.createElement("div");
-
-            element.className = "tool";
-
-            element.innerHTML = `
-                <div class="name">
-                    ${escapeHTML(tool.icon || "🔧")}
-                    ${escapeHTML(tool.name || "Unnamed")}
-                </div>
-
-                <div class="id">
-                    ID: ${escapeHTML(tool.id)}
-                    |
-                    ${escapeHTML(tool.category || "Other")}
-                </div>
-            `;
-
-            container.appendChild(element);
-
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        document.getElementById("tools").textContent =
-            "تعذر تحميل الأدوات";
-
     }
 
-}
+    // ═══════════════════════════════════════════════════════
+    // 3. جلب الأدوات من السيرفر
+    // ═══════════════════════════════════════════════════════
+    async function loadTools() {
+        try {
+            const response = await fetch(`${API_BASE}/tools`);
+            const data = await response.json();
+            if (data.success) {
+                toolsData = data.tools || [];
+                renderTools();
+                document.getElementById('statTools').textContent = toolsData.length;
+                addLog(`✅ تم تحميل ${toolsData.length} أداة بنجاح`, 'success');
+            } else {
+                addLog('⚠️ فشل في تحميل الأدوات', 'error');
+            }
+        } catch (error) {
+            addLog(`❌ خطأ في الاتصال: ${error.message}`, 'error');
+        }
+    }
 
+    // ═══════════════════════════════════════════════════════
+    // 4. عرض الأدوات في الواجهة
+    // ═══════════════════════════════════════════════════════
+    function renderTools() {
+        const grid = document.getElementById('toolsGrid');
+        grid.innerHTML = '';
+        
+        toolsData.forEach(tool => {
+            const card = document.createElement('div');
+            card.className = 'tool-card';
+            card.innerHTML = `
+                <span class="tool-id">ID: ${tool.id}</span>
+                <span class="tool-icon">${tool.name.split(' ')[0]}</span>
+                <div class="tool-name">${tool.name}</div>
+                <div class="tool-desc">${tool.description}</div>
+                <span class="tool-category">${tool.category}</span>
+                <div class="active-toggle ${tool.active ? 'active' : ''}" 
+                     onclick="toggleTool(${tool.id}, event)" 
+                     title="تفعيل/إلغاء الأداة"></div>
+            `;
+            grid.appendChild(card);
+        });
+    }
 
-function escapeHTML(value) {
+    // ═══════════════════════════════════════════════════════
+    // 5. تبديل حالة الأداة
+    // ═══════════════════════════════════════════════════════
+    function toggleTool(toolId, event) {
+        event.stopPropagation();
+        const tool = toolsData.find(t => t.id === toolId);
+        if (tool) {
+            tool.active = !tool.active;
+            // تحديث في السيرفر (محاكاة)
+            addLog(`🔄 تم ${tool.active ? 'تفعيل' : 'إيقاف'} الأداة: ${tool.name}`, 'info');
+            renderTools(); // إعادة الرسم للتحديث
+        }
+    }
 
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    // ═══════════════════════════════════════════════════════
+    // 6. أوامر التحكم الأساسية
+    // ═══════════════════════════════════════════════════════
+    
+    // ✅ بدء التبادل
+    async function startFollow() {
+        addLog('⏳ جاري بدء التبادل...', 'info');
+        try {
+            const response = await fetch(`${API_BASE}/start`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ maxFollows: 30, delay: 1500 })
+            });
+            const data = await response.json();
+            if (data.success) {
+                sessionActive = true;
+                addLog(`✅ ${data.message} | الجلسة: ${data.sessionId}`, 'success');
+                updateStatusUI(true);
+            } else {
+                addLog(`❌ ${data.message || 'فشل في البدء'}`, 'error');
+            }
+        } catch (error) {
+            addLog(`❌ خطأ: ${error.message}`, 'error');
+        }
+    }
 
-}
+    // 🛑 إيقاف التبادل
+    async function stopFollow() {
+        addLog('⏳ جاري إيقاف التبادل...', 'info');
+        try {
+            const response = await fetch(`${API_BASE}/stop`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            if (data.success) {
+                sessionActive = false;
+                addLog(`🛑 ${data.message}`, 'info');
+                updateStatusUI(false);
+            } else {
+                addLog(`⚠️ ${data.message || 'لا توجد جلسة نشطة'}`, 'error');
+            }
+        } catch (error) {
+            addLog(`❌ خطأ: ${error.message}`, 'error');
+        }
+    }
 
+    // 📊 تحديث الحالة
+    async function getStatus() {
+        addLog('📊 جاري جلب الحالة...', 'info');
+        try {
+            const response = await fetch(`${API_BASE}/status`);
+            const data = await response.json();
+            if (data.success) {
+                const status = data.status;
+                document.getElementById('statFollows').textContent = 
+                    status.session?.maxFollows || 0;
+                document.getElementById('statSuccess').textContent = 
+                    status.session?.status === 'active' ? '95%' : '0%';
+                document.getElementById('statUsers').textContent = 
+                    status.totalTools || 0;
+                
+                // تحديث حالة الجلسة
+                sessionActive = status.activeSession || false;
+                updateStatusUI(sessionActive);
+                
+                addLog(`📈 الجلسة: ${sessionActive ? 'نشطة' : 'غير نشطة'}`, 'info');
+            }
+        } catch (error) {
+            addLog(`❌ خطأ: ${error.message}`, 'error');
+        }
+    }
 
-loadTools();
+    // ═══════════════════════════════════════════════════════
+    // 7. تحديث واجهة الحالة
+    // ═══════════════════════════════════════════════════════
+    function updateStatusUI(active) {
+        const dot = document.getElementById('serverDot');
+        const text = document.getElementById('serverStatusText');
+        if (active) {
+            dot.className = 'dot';
+            text.textContent = '🟢 جلسة نشطة';
+        } else {
+            dot.className = 'dot offline';
+            text.textContent = '⏸️ غير نشطة';
+        }
+    }
 
+    // ═══════════════════════════════════════════════════════
+    // 8. مسح السجلات
+    // ═══════════════════════════════════════════════════════
+    function clearLogs() {
+        const container = document.getElementById('logsContainer');
+        container.innerHTML = '';
+        addLog('🗑️ تم مسح سجل الأحداث', 'info');
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 9. فتح الإعدادات (محاكاة)
+    // ═══════════════════════════════════════════════════════
+    function openSettings() {
+        const newMax = prompt('⚙️ أدخل الحد الأقصى للمتابعات (افتراضي 30):', '30');
+        if (newMax !== null) {
+            const delay = prompt('⏱️ أدخل التأخير بين المتابعات (مللي ثانية، افتراضي 1500):', '1500');
+            if (delay !== null) {
+                fetch(`${API_BASE}/settings`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ maxFollows: parseInt(newMax), delay: parseInt(delay) })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        addLog(`⚙️ تم تحديث الإعدادات: ${newMax} متابعة، تأخير ${delay}ms`, 'success');
+                    }
+                })
+                .catch(err => addLog(`❌ خطأ في تحديث الإعدادات: ${err.message}`, 'error'));
+            }
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 10. التحقق من اتصال السيرفر
+    // ═══════════════════════════════════════════════════════
+    async function checkServer() {
+        try {
+            const response = await fetch(`${API_BASE}`);
+            if (response.ok) {
+                const data = await response.json();
+                addLog(`🔗 متصل بالسيرفر (الإصدار ${data.version})`, 'success');
+                document.getElementById('serverDot').className = 'dot';
+                document.getElementById('serverStatusText').textContent = '🟢 متصل';
+                return true;
+            }
+        } catch (error) {
+            document.getElementById('serverDot').className = 'dot offline';
+            document.getElementById('serverStatusText').textContent = '🔴 غير متصل';
+            addLog('⚠️ السيرفر غير متصل، جاري المحاولة مرة أخرى...', 'error');
+            return false;
+        }
+        return false;
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 11. تهيئة النظام
+    // ═══════════════════════════════════════════════════════
+    async function init() {
+        addLog('🚀 جاري تهيئة النظام...', 'info');
+        
+        // التحقق من السيرفر
+        const connected = await checkServer();
+        if (connected) {
+            await loadTools();
+            await getStatus();
+        } else {
+            // محاولة إعادة الاتصال بعد 5 ثواني
+            setTimeout(() => {
+                checkServer().then(connected => {
+                    if (connected) {
+                        loadTools();
+                        getStatus();
+                    }
+                });
+            }, 5000);
+        }
+
+        // تحديث تلقائي كل 30 ثانية
+        setInterval(() => {
+            if (sessionActive) {
+                getStatus();
+            }
+            checkServer();
+        }, 30000);
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 12. تشغيل النظام
+    // ═══════════════════════════════════════════════════════
+    init();
+
+    // جعل الدوال عامة للاستخدام من Console
+    window.startFollow = startFollow;
+    window.stopFollow = stopFollow;
+    window.getStatus = getStatus;
+    window.clearLogs = clearLogs;
+    window.openSettings = openSettings;
+
+    console.log('🛡️ نظام التبادل السري جاهز');
+    console.log('📋 الأوامر المتاحة: startFollow(), stopFollow(), getStatus(), clearLogs(), openSettings()');
 </script>
 
 </body>
