@@ -1,0 +1,29 @@
+{
+  "version": "1.0",
+  "tools": [
+    {
+      "id": 1001,
+      "name": "Speed",
+      "icon": "⚡",
+      "category": "Gameplay"
+    },
+    {
+      "id": 1002,
+      "name": "High Jump",
+      "icon": "🦘",
+      "category": "Gameplay"
+    },
+    {
+      "id": 1003,
+      "name": "God Mode",
+      "icon": "🛡️",
+      "category": "Player"
+    },
+    {
+      "id": 1004,
+      "name": "No Recoil",
+      "icon": "🎯",
+      "category": "Aim"
+    }
+  ]
+}
