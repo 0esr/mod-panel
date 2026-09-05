@@ -1,194 +1,597 @@
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
-const WebSocket = require('ws');
+const express = require("express");
+const axios = require("axios");
+const cheerio = require("cheerio");
+const TelegramBot = require("node-telegram-bot-api");
+
+// ===============================
+// Environment Variables
+// ===============================
+
+const API_TOKEN = process.env.BOT_TOKEN;
+const DEVELOPER_ID = String(process.env.DEVELOPER_ID || "");
+
+if (!API_TOKEN) {
+    console.error("❌ BOT_TOKEN غير موجود.");
+    process.exit(1);
+}
+
+if (!DEVELOPER_ID) {
+    console.warn("⚠️ DEVELOPER_ID غير موجود.");
+}
+
+// ===============================
+// Telegram Bot
+// ===============================
+
+const bot = new TelegramBot(API_TOKEN, {
+    polling: true
+});
+
+// ===============================
+// Express Server
+// ===============================
 
 const app = express();
+
+app.get("/", (req, res) => {
+    res.send("🟢 Telegram Bot is running.");
+});
+
 const PORT = process.env.PORT || 3000;
 
-// ═══════════════════════════════════════════════════════
-// 1. الإعدادات الأساسية والوسائط
-// ═══════════════════════════════════════════════════════
-app.use(cors());
-app.use(express.json());
-app.use(express.static('mod-panel/public'));
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`🟢 Server running on port ${PORT}`);
+});
 
-// ═══════════════════════════════════════════════════════
-// 2. قاعدة بيانات الأدوات (tools.json)
-// ═══════════════════════════════════════════════════════
-const TOOLS_PATH = path.join(__dirname, 'tools.json');
+// ===============================
+// Statistics
+// ===============================
 
-// قراءة قاعدة البيانات مع معالجة الأخطاء
-function readToolsDB() {
-    try {
-        const data = fs.readFileSync(TOOLS_PATH, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('⚠️ خطأ في قراءة tools.json، إنشاء قاعدة جديدة:', error.message);
-        // إنشاء قاعدة بيانات افتراضية إذا كان الملف تالفاً
-        const defaultDB = { tools: [], settings: { maxFollows: 30, delay: 1500 } };
-        fs.writeFileSync(TOOLS_PATH, JSON.stringify(defaultDB, null, 2));
-        return defaultDB;
+const usersWithCountries = {};
+
+let searchOperationsCount = 0;
+let searchedAccountsCount = 0;
+
+// ===============================
+// TikTok Class
+// ===============================
+
+class LordGivt {
+
+    constructor(username) {
+
+        this.username = username.replace("@", "").trim();
+        this.jsonData = null;
+        this.errorMessage = null;
+
+        this.admin();
     }
-}
 
-// كتابة قاعدة البيانات
-function writeToolsDB(data) {
-    fs.writeFileSync(TOOLS_PATH, JSON.stringify(data, null, 2));
-}
+    async admin() {
 
-// ═══════════════════════════════════════════════════════
-// 3. WebSocket للتواصل المباشر مع المستخدمين
-// ═══════════════════════════════════════════════════════
-const wss = new WebSocket.Server({ port: PORT + 1 }); // استخدام منفذ إضافي
+        const errorMessage = await this.sendRequest();
 
-wss.on('connection', (ws) => {
-    console.log('🔗 مستخدم جديد متصل عبر WebSocket');
-    
-    ws.on('message', (message) => {
+        if (errorMessage) {
+            this.errorMessage = errorMessage;
+        }
+    }
+
+    async sendRequest() {
+
+        const headers = {
+            "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+                "AppleWebKit/537.36 (KHTML, like Gecko) " +
+                "Chrome/131.0.0.0 Safari/537.36"
+        };
+
         try {
-            const data = JSON.parse(message);
-            console.log('📩 رسالة واردة:', data);
-            
-            // معالجة الأوامر الصادرة من المستخدم
-            if (data.action === 'start_follow') {
-                // محاكاة بدء عملية المتابعة
-                ws.send(JSON.stringify({ 
-                    status: 'started', 
-                    message: '✅ بدأت عملية المتابعة',
-                    sessionId: Date.now().toString()
-                }));
-            } else if (data.action === 'get_status') {
-                // إرسال إحصائيات وهمية
-                ws.send(JSON.stringify({
-                    status: 'active',
-                    follows: Math.floor(Math.random() * 50),
-                    maxFollows: 30,
-                    successRate: '95%'
-                }));
+
+            searchOperationsCount++;
+
+            const url =
+                `https://www.tiktok.com/@${encodeURIComponent(this.username)}`;
+
+            const response = await axios.get(url, {
+                headers,
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+
+            const scriptTag =
+                $("#__UNIVERSAL_DATA_FOR_REHYDRATION__").html();
+
+            if (!scriptTag) {
+                return "❌ خطأ: لم يتم العثور على بيانات الحساب.";
             }
-        } catch (e) {
-            console.error('❌ خطأ في معالجة رسالة WebSocket:', e.message);
+
+            const data = JSON.parse(scriptTag);
+
+            const userInfo =
+                data?.__DEFAULT_SCOPE__?.["webapp.user-detail"]?.userInfo;
+
+            if (!userInfo) {
+                return "❌ خطأ: لم يتم العثور على معلومات المستخدم.";
+            }
+
+            this.jsonData = userInfo;
+
+            const region = this.accountRegion();
+
+            if (region !== "غير معروف") {
+
+                if (!usersWithCountries[region]) {
+                    usersWithCountries[region] = 0;
+                }
+
+                usersWithCountries[region]++;
+            }
+
+            searchedAccountsCount++;
+
+            return null;
+
+        } catch (error) {
+
+            console.error("TikTok Error:", error.message);
+
+            return `❌ خطأ: ${error.message}`;
         }
+    }
+
+    getUserId() {
+
+        try {
+            return String(this.jsonData.user.id);
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    getName() {
+
+        try {
+            return this.jsonData.user.nickname;
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    isVerified() {
+
+        try {
+            return this.jsonData.user.verified ? "نعم" : "لا";
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    secUid() {
+
+        try {
+            return this.jsonData.user.secUid;
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    isPrivate() {
+
+        try {
+            return this.jsonData.user.privateAccount ? "نعم" : "لا";
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    followers() {
+
+        try {
+            return this.jsonData.stats.followerCount;
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    following() {
+
+        try {
+            return this.jsonData.stats.followingCount;
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    userCreateTime() {
+
+        try {
+
+            const userId = parseInt(this.getUserId());
+
+            if (!Number.isFinite(userId)) {
+                return "غير معروف";
+            }
+
+            const binary = userId.toString(2);
+
+            const bits = binary.substring(0, 31);
+
+            const timestamp = parseInt(bits, 2);
+
+            const date = new Date(timestamp * 1000);
+
+            return formatDate(date);
+
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    lastChangeName() {
+
+        try {
+
+            const time =
+                this.jsonData.user.nickNameModifyTime;
+
+            if (!time) {
+                return "غير معروف";
+            }
+
+            return formatDate(new Date(parseInt(time) * 1000));
+
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    accountRegion() {
+
+        try {
+            return this.jsonData.user.region || "غير معروف";
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    videoCount() {
+
+        try {
+            return this.jsonData.stats.videoCount;
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    openFavorite() {
+
+        try {
+            return this.jsonData.user.openFavorite ? "نعم" : "لا";
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    seeFollowing() {
+
+        try {
+
+            const value =
+                String(this.jsonData.user.followingVisibility);
+
+            return value === "1" ? "نعم" : "لا";
+
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    language() {
+
+        try {
+            return String(this.jsonData.user.language);
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    heartCount() {
+
+        try {
+            return String(this.jsonData.stats.heart);
+        } catch {
+            return "غير معروف";
+        }
+    }
+
+    getCountryFlag(regionCode) {
+
+        try {
+
+            if (!regionCode || regionCode.length !== 2) {
+                return "🚩";
+            }
+
+            const offset =
+                "🇦".codePointAt(0) - "A".charCodeAt(0);
+
+            const first =
+                String.fromCodePoint(
+                    regionCode.charCodeAt(0) + offset
+                );
+
+            const second =
+                String.fromCodePoint(
+                    regionCode.charCodeAt(1) + offset
+                );
+
+            return first + second;
+
+        } catch {
+            return "🚩";
+        }
+    }
+
+    output() {
+
+        if (!this.jsonData) {
+            return "❌ خطأ: لم يتم جلب البيانات.";
+        }
+
+        const region = this.accountRegion();
+
+        const flag =
+            region !== "غير معروف"
+                ? this.getCountryFlag(region)
+                : "🚩";
+
+        return (
+            `📊 <b>معلومات الحساب</b>\n\n` +
+
+            `👤 <b>الحساب:</b> @${escapeHTML(this.username)}\n\n` +
+
+            `• معرف المستخدم: <code>${escapeHTML(this.getUserId())}</code>\n` +
+            `• اللقب: ${escapeHTML(this.getName())}\n` +
+            `• موثق: ${this.isVerified()}\n` +
+            `• حساب خاص: ${this.isPrivate()}\n` +
+            `• secUid: <code>${escapeHTML(this.secUid())}</code>\n` +
+            `• عدد المتابعين: ${this.followers()}\n` +
+            `• يتابع: ${this.following()}\n` +
+            `• عدد الإعجابات: ${this.heartCount()}\n` +
+            `• عدد الفيديوهات: ${this.videoCount()}\n` +
+            `• المفضلة مفتوحة: ${this.openFavorite()}\n` +
+            `• يمكن رؤية قائمة المتابعين: ${this.seeFollowing()}\n` +
+            `• لغة المستخدم: ${escapeHTML(this.language())}\n` +
+            `• وقت إنشاء الحساب: ${escapeHTML(this.userCreateTime())}\n` +
+            `• آخر تغيير للقب: ${escapeHTML(this.lastChangeName())}\n` +
+            `• الدولة: ${escapeHTML(region)} ${flag}\n\n` +
+
+            `━━━━━━━━━━━━━━\n` +
+
+            `• <a href="https://t.me/YOUR_TELEGRAM_CHANNEL_LINK">Telegram</a>\n` +
+            `• <a href="https://www.instagram.com/YOUR_INSTAGRAM_PROFILE">Instagram</a>\n` +
+            `• <a href="https://youtube.com/YOUR_YOUTUBE_CHANNEL">YouTube</a>\n` +
+            `• <a href="https://x.com/1llfll">X</a>`
+        );
+    }
+}
+
+// ===============================
+// Helpers
+// ===============================
+
+function formatDate(date) {
+
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+        return "غير معروف";
+    }
+
+    return date.toLocaleString("ar-SA", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
     });
-    
-    ws.on('close', () => console.log('🔌 مستخدم قطع الاتصال'));
+}
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+// ===============================
+// /start /help
+// ===============================
+
+bot.onText(/^\/(start|help)$/, async (message) => {
+
+    const text =
+        `👋 <b>مرحبًا بك</b>\n\n` +
+        `أنا بوت لجلب بعض المعلومات العامة من حسابات TikTok.\n\n` +
+        `📌 أرسل اسم المستخدم مثل:\n` +
+        `<code>@username</code>\n\n` +
+        `أو:\n` +
+        `<code>username</code>`;
+
+    await bot.sendMessage(
+        message.chat.id,
+        text,
+        {
+            parse_mode: "HTML"
+        }
+    );
 });
 
-console.log(`🔌 WebSocket يعمل على المنفذ ${PORT + 1}`);
+// ===============================
+// /status
+// ===============================
 
-// ═══════════════════════════════════════════════════════
-// 4. نقاط نهاية API (Routes)
-// ═══════════════════════════════════════════════════════
+bot.onText(/^\/status$/, async (message) => {
 
-// 📌 الصفحة الرئيسية (تعليمات API)
-app.get('/api', (req, res) => {
-    res.json({
-        name: '🛡️ TikTok Follow System',
-        version: '3.0.0',
-        status: 'online',
-        endpoints: [
-            '/api/tools - قائمة الأدوات',
-            '/api/start - بدء التبادل',
-            '/api/stop - إيقاف التبادل',
-            '/api/status - حالة النظام',
-            '/api/settings - إعدادات النظام'
-        ]
-    });
-});
+    const userId = String(message.from.id);
 
-// 🛠️ الحصول على قائمة الأدوات
-app.get('/api/tools', (req, res) => {
-    const db = readToolsDB();
-    res.json({ success: true, tools: db.tools || [] });
-});
+    if (userId !== DEVELOPER_ID) {
 
-// ✅ بدء التبادل (محاكاة)
-app.post('/api/start', (req, res) => {
-    const { maxFollows = 30, delay = 1500 } = req.body;
-    const sessionId = Date.now().toString();
-    
-    // تسجيل الجلسة في قاعدة البيانات
-    const db = readToolsDB();
-    db.currentSession = {
-        id: sessionId,
-        startTime: new Date().toISOString(),
-        maxFollows,
-        delay,
-        status: 'active'
-    };
-    writeToolsDB(db);
-    
-    res.json({
-        success: true,
-        message: '✅ تم بدء التبادل بنجاح',
-        sessionId,
-        config: { maxFollows, delay }
-    });
-});
+        return bot.sendMessage(
+            message.chat.id,
+            "❌ لا يمكنك استخدام هذا الأمر."
+        );
+    }
 
-// 🛑 إيقاف التبادل
-app.post('/api/stop', (req, res) => {
-    const db = readToolsDB();
-    if (db.currentSession) {
-        db.currentSession.status = 'stopped';
-        db.currentSession.endTime = new Date().toISOString();
-        writeToolsDB(db);
-        res.json({ success: true, message: '🛑 تم إيقاف التبادل' });
+    let status =
+        `🟢 <b>البوت يعمل بشكل صحيح</b>\n\n`;
+
+    status +=
+        `📊 <b>الإحصائيات</b>\n\n`;
+
+    status +=
+        `• عدد عمليات البحث: ` +
+        `<code>${searchOperationsCount}</code>\n`;
+
+    status +=
+        `• عدد الحسابات التي تم البحث عنها: ` +
+        `<code>${searchedAccountsCount}</code>\n\n`;
+
+    status +=
+        `🌍 <b>الدول</b>\n`;
+
+    const regions =
+        Object.entries(usersWithCountries);
+
+    if (regions.length === 0) {
+
+        status += "لا توجد بيانات دول حتى الآن.\n";
+
     } else {
-        res.json({ success: false, message: '⚠️ لا توجد جلسة نشطة' });
+
+        for (const [region, count] of regions) {
+
+            status +=
+                `• ${escapeHTML(region)}: ` +
+                `<code>${count}</code>\n`;
+        }
+    }
+
+    await bot.sendMessage(
+        message.chat.id,
+        status,
+        {
+            parse_mode: "HTML"
+        }
+    );
+});
+
+// ===============================
+// TikTok Search
+// ===============================
+
+bot.on("message", async (message) => {
+
+    if (!message.text) {
+        return;
+    }
+
+    if (message.text.startsWith("/")) {
+        return;
+    }
+
+    let username = message.text.trim();
+
+    username = username.replace(/^@/, "");
+
+    if (!username) {
+        return;
+    }
+
+    // منع إدخال روابط أو نصوص طويلة جدًا
+    if (
+        username.length > 100 ||
+        username.includes(" ") ||
+        username.includes("/")
+    ) {
+
+        return bot.sendMessage(
+            message.chat.id,
+            "❌ أرسل اسم مستخدم TikTok فقط.\n\nمثال: @username"
+        );
+    }
+
+    const loadingMessage =
+        await bot.sendMessage(
+            message.chat.id,
+            "🔎 جاري البحث عن الحساب..."
+        );
+
+    try {
+
+        const account =
+            new LordGivt(username);
+
+        const error =
+            await account.sendRequest();
+
+        if (error) {
+
+            await bot.editMessageText(
+                error,
+                {
+                    chat_id: message.chat.id,
+                    message_id: loadingMessage.message_id
+                }
+            );
+
+            return;
+        }
+
+        const result =
+            account.output();
+
+        await bot.editMessageText(
+            result,
+            {
+                chat_id: message.chat.id,
+                message_id: loadingMessage.message_id,
+                parse_mode: "HTML",
+                disable_web_page_preview: true
+            }
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        await bot.editMessageText(
+            "❌ حدث خطأ أثناء جلب بيانات الحساب.",
+            {
+                chat_id: message.chat.id,
+                message_id: loadingMessage.message_id
+            }
+        );
     }
 });
 
-// 📊 حالة النظام
-app.get('/api/status', (req, res) => {
-    const db = readToolsDB();
-    const session = db.currentSession || null;
-    
-    res.json({
-        success: true,
-        status: {
-            serverTime: new Date().toISOString(),
-            activeSession: session ? session.status === 'active' : false,
-            session: session,
-            totalTools: (db.tools || []).length
-        }
-    });
+// ===============================
+// Errors
+// ===============================
+
+bot.on("polling_error", (error) => {
+    console.error("Telegram Polling Error:", error.message);
 });
 
-// ⚙️ إعدادات النظام
-app.get('/api/settings', (req, res) => {
-    const db = readToolsDB();
-    res.json({ success: true, settings: db.settings || {} });
+process.on("uncaughtException", (error) => {
+    console.error("Uncaught Exception:", error);
 });
 
-app.post('/api/settings', (req, res) => {
-    const db = readToolsDB();
-    db.settings = { ...db.settings, ...req.body };
-    writeToolsDB(db);
-    res.json({ success: true, settings: db.settings });
+process.on("unhandledRejection", (error) => {
+    console.error("Unhandled Rejection:", error);
 });
 
-// 🎯 تشغيل الخادم
-app.listen(PORT, () => {
-    console.log(`
-╔══════════════════════════════════════════════════════════╗
-║         🛡️ TikTok Follow System v3.0                    ║
-║         🔒 Server is running securely                   ║
-╠══════════════════════════════════════════════════════════╣
-║   🌐 Port: ${PORT}                                             ║
-║   🔌 WebSocket: ${PORT + 1}                                    ║
-║   📊 Status: Online                                         ║
-║   📁 Tools DB: ${TOOLS_PATH}                                 ║
-╠══════════════════════════════════════════════════════════╣
-║   📌 API Endpoints:                                         ║
-║   - GET  /api          → معلومات النظام                   ║
-║   - GET  /api/tools    → قائمة الأدوات                   ║
-║   - POST /api/start    → بدء التبادل                     ║
-║   - POST /api/stop     → إيقاف التبادل                   ║
-║   - GET  /api/status   → حالة النظام                     ║
-║   - GET  /api/settings → إعدادات النظام                 ║
-╚══════════════════════════════════════════════════════════╝
-    `);
-});
+console.log("🤖 Telegram bot started...");
