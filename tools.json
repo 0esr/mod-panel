@@ -1,29 +1,52 @@
 {
-  "version": "1.0",
   "tools": [
     {
       "id": 1001,
-      "name": "Speed",
-      "icon": "⚡",
-      "category": "Gameplay"
+      "name": "⚡ Speed",
+      "description": "تسريع عملية التبادل",
+      "category": "Gameplay",
+      "active": true,
+      "config": {
+        "multiplier": 1.5
+      }
     },
     {
       "id": 1002,
-      "name": "High Jump",
-      "icon": "🦘",
-      "category": "Gameplay"
+      "name": "🦘 High Jump",
+      "description": "تخطي الحسابات غير النشطة",
+      "category": "Gameplay",
+      "active": true,
+      "config": {
+        "skipInactive": true
+      }
     },
     {
       "id": 1003,
-      "name": "God Mode",
-      "icon": "🛡️",
-      "category": "Player"
+      "name": "🛡️ God Mode",
+      "description": "حماية من الحظر",
+      "category": "Player",
+      "active": true,
+      "config": {
+        "protection": "high"
+      }
     },
     {
       "id": 1004,
-      "name": "No Recoil",
-      "icon": "🎯",
-      "category": "Aim"
+      "name": "🎯 No Recoil",
+      "description": "متابعة دقيقة",
+      "category": "Aim",
+      "active": true,
+      "config": {
+        "precision": 95
+      }
     }
-  ]
+  ],
+  "settings": {
+    "maxFollows": 30,
+    "delay": 1500,
+    "autoScroll": true,
+    "debugMode": false
+  },
+  "currentSession": null,
+  "logs": []
 }
