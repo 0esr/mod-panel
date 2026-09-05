@@ -1,1 +1,126 @@
-ن
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Mod Panel</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #080a0f;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 25px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .tool {
+            background: #11151d;
+            border: 1px solid #252c37;
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .name {
+            font-weight: bold;
+        }
+
+        .id {
+            color: #788292;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Mod Menu</h1>
+
+<div id="tools">
+    جاري التحميل...
+</div>
+
+<script>
+
+async function loadTools() {
+
+    try {
+
+        const response =
+            await fetch("/api/tools");
+
+        if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+        }
+
+        const data =
+            await response.json();
+
+        const container =
+            document.getElementById("tools");
+
+        container.innerHTML = "";
+
+        data.tools.forEach(tool => {
+
+            const element =
+                document.createElement("div");
+
+            element.className = "tool";
+
+            element.innerHTML = `
+                <div class="name">
+                    ${escapeHTML(tool.icon || "🔧")}
+                    ${escapeHTML(tool.name || "Unnamed")}
+                </div>
+
+                <div class="id">
+                    ID: ${escapeHTML(tool.id)}
+                    |
+                    ${escapeHTML(tool.category || "Other")}
+                </div>
+            `;
+
+            container.appendChild(element);
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("tools").textContent =
+            "تعذر تحميل الأدوات";
+
+    }
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+loadTools();
+
+</script>
+
+</body>
+</html>
