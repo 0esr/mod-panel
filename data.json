@@ -1,0 +1,294 @@
+{
+  "site": {
+    "name": "متجر التطبيقات",
+    "description": "متجر تطبيقات بسيط وسريع",
+    "logo": "images/logo.png"
+  },
+
+  "appearance": {
+    "accent": "#ffd000",
+    "accent2": "#ffb800",
+    "background": "#050505",
+    "card": "#111111",
+    "radius": 20
+  },
+
+  "header": {
+    "enabled": true,
+    "search": true,
+    "searchPlaceholder": "ابحث عن تطبيق..."
+  },
+
+  "hero": {
+    "enabled": true,
+
+    "badge": "اكتشف تطبيقات جديدة",
+
+    "title": "تطبيقاتك المفضلة",
+
+    "highlight": "في مكان واحد",
+
+    "description": "تصفح التطبيقات وحمّل أحدث الإصدارات بسهولة.",
+
+    "primaryButton": {
+      "enabled": true,
+      "text": "استكشف التطبيقات"
+    }
+  },
+
+  "sections": {
+
+    "apps": {
+      "enabled": true,
+      "title": "التطبيقات",
+      "showCount": true
+    },
+
+    "filters": {
+      "enabled": true,
+      "latest": true,
+      "apk": true
+    }
+
+  },
+
+
+  "apps": [
+
+    {
+      "id": "example-app",
+
+      "name": "تطبيق تجريبي",
+
+      "icon": "images/app.png",
+
+      "version": "2.1.0",
+
+      "category": "أدوات",
+
+      "size": "25 MB",
+
+      "description": "تطبيق تجريبي يمكنك تغيير معلوماته بالكامل من هذا الملف.",
+
+
+      "download": {
+
+        "type": "file",
+
+        "url": "apps/app.apk",
+
+        "text": "تحميل"
+
+      },
+
+
+      "details": {
+
+        "enabled": true,
+
+        "features": [
+
+          "واجهة جديدة",
+
+          "تحسين الأداء",
+
+          "إصلاح الأخطاء"
+
+        ]
+
+      },
+
+
+      "updates": [
+
+        {
+
+          "version": "2.0.0",
+
+          "date": "2026-08-20",
+
+          "file": "apps/app-old.apk",
+
+          "changes": [
+
+            "تحسين الأداء",
+
+            "إصلاح الأخطاء"
+
+          ]
+
+        },
+
+        {
+
+          "version": "1.5.0",
+
+          "date": "2026-07-10",
+
+          "file": "apps/app-old2.apk",
+
+          "changes": [
+
+            "إضافة ميزات جديدة"
+
+          ]
+
+        }
+
+      ]
+
+    },
+
+
+    {
+      "id": "another-app",
+
+      "name": "تطبيق آخر",
+
+      "icon": "images/app2.png",
+
+      "version": "1.0.0",
+
+      "category": "ترفيه",
+
+      "size": "18 MB",
+
+      "description": "وصف التطبيق الآخر.",
+
+      "download": {
+
+        "type": "url",
+
+        "url": "https://example.com/app.apk",
+
+        "text": "تحميل"
+
+      },
+
+      "details": {
+
+        "enabled": true,
+
+        "features": []
+
+      },
+
+      "updates": []
+
+    }
+
+  ],
+
+
+  "ads": {
+
+    "enabled": true,
+
+
+    "settings": {
+
+      "lazyLoad": true,
+
+      "maxAdsPerPage": 8
+
+    },
+
+
+    "slots": [
+
+
+      {
+        "id": "top-ad",
+
+        "enabled": true,
+
+        "position": "top",
+
+        "type": "responsive",
+
+        "label": "إعلان",
+
+        "minHeight": 90,
+
+        "height": 100,
+
+        "close": false,
+
+        "code": ""
+      },
+
+
+      {
+        "id": "between-apps",
+
+        "enabled": true,
+
+        "position": "betweenApps",
+
+        "after": 4,
+
+        "type": "responsive",
+
+        "label": "إعلان",
+
+        "minHeight": 90,
+
+        "height": 100,
+
+        "close": true,
+
+        "code": ""
+      },
+
+
+      {
+        "id": "bottom-ad",
+
+        "enabled": true,
+
+        "position": "bottom",
+
+        "type": "responsive",
+
+        "label": "إعلان",
+
+        "minHeight": 60,
+
+        "height": 70,
+
+        "close": true,
+
+        "code": ""
+      },
+
+
+      {
+        "id": "popup-ad",
+
+        "enabled": false,
+
+        "position": "popup",
+
+        "type": "html",
+
+        "height": 300,
+
+        "close": true,
+
+        "code": ""
+      }
+
+    ]
+
+  },
+
+
+  "footer": {
+
+    "enabled": true,
+
+    "text": "© 2026 متجر التطبيقات"
+
+  }
+
+}
