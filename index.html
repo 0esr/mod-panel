@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>متجر التطبيقات</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#070707;
+    --card:#111;
+    --card2:#151515;
+    --border:#242424;
+    --text:#fff;
+    --muted:#999;
+    --accent:#ffd000;
+    --green:#35d07f;
+    --red:#ff4d4d;
+}
+
+body{
+    font-family:"Cairo",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(7,7,7,.94);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid var(--border);
+}
+
+.header{
+    max-width:1200px;
+    margin:auto;
+    min-height:70px;
+    padding:10px 16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:20px;
+    font-weight:800;
+}
+
+.logo i{
+    color:var(--accent);
+}
+
+.search{
+    width:min(420px,45vw);
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    height:44px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:#111;
+    color:#fff;
+    outline:none;
+    padding:0 45px 0 15px;
+}
+
+.search i{
+    position:absolute;
+    right:15px;
+    top:14px;
+    color:#777;
+}
+
+/* MAIN */
+
+main{
+    max-width:1200px;
+    margin:auto;
+    padding:25px 15px 100px;
+}
+
+/* ADS */
+
+.ads{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.ad{
+    position:relative;
+    overflow:hidden;
+    border-radius:16px;
+    border:1px solid var(--border);
+    background:#101010;
+}
+
+.ad img{
+    width:100%;
+    display:block;
+}
+
+.ad-close{
+    position:absolute;
+    top:8px;
+    left:8px;
+    width:30px;
+    height:30px;
+    border:0;
+    border-radius:50%;
+    background:#000b;
+    color:#fff;
+    cursor:pointer;
+}
+
+.ad-html{
+    width:100%;
+    border:0;
+    display:block;
+    min-height:100px;
+}
+
+.section-title{
+    margin:25px 0 15px;
+    font-size:21px;
+    font-weight:800;
+}
+
+.section-title i{
+    color:var(--accent);
+    margin-left:8px;
+}
+
+/* APPS */
+
+.apps{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+    gap:15px;
+}
+
+.app-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:16px;
+    transition:.2s;
+}
+
+.app-top{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.app-icon{
+    width:70px;
+    height:70px;
+    border-radius:17px;
+    object-fit:cover;
+    background:#222;
+    flex-shrink:0;
+}
+
+.app-name{
+    font-size:18px;
+    font-weight:800;
+}
+
+.version{
+    color:var(--green);
+    font-size:13px;
+    margin-top:3px;
+}
+
+.description{
+    color:#aaa;
+    font-size:13px;
+    line-height:1.8;
+    margin:14px 0;
+}
+
+.buttons{
+    display:flex;
+    gap:8px;
+}
+
+.btn{
+    min-height:42px;
+    padding:8px 14px;
+    border-radius:11px;
+    border:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:700;
+    background:#191919;
+    color:#fff;
+}
+
+.btn-download{
+    flex:1;
+    background:var(--accent);
+    color:#000;
+    border-color:var(--accent);
+}
+
+.btn-old{
+    flex:1;
+}
+
+/* RELEASES */
+
+.old-releases{
+    display:none;
+    margin-top:15px;
+    border-top:1px solid var(--border);
+    padding-top:15px;
+}
+
+.old-release{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px;
+    margin-bottom:8px;
+    background:#161616;
+    border-radius:10px;
+}
+
+.old-info{
+    display:flex;
+    flex-direction:column;
+}
+
+.old-version{
+    font-weight:700;
+}
+
+.old-date{
+    color:#777;
+    font-size:11px;
+}
+
+.old-download{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#222;
+    color:var(--accent);
+}
+
+/* EMPTY */
+
+.empty{
+    padding:40px;
+    text-align:center;
+    color:#777;
+}
+
+/* BOTTOM AD */
+
+.bottom-ad{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    z-index:2000;
+    max-width:800px;
+    margin:auto;
+}
+
+/* POPUP */
+
+.popup{
+    position:fixed;
+    inset:0;
+    background:#000b;
+    z-index:5000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.popup-box{
+    width:min(500px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#111;
+    border:1px solid var(--border);
+    border-radius:20px;
+    position:relative;
+}
+
+.popup-close{
+    position:absolute;
+    left:10px;
+    top:10px;
+    width:35px;
+    height:35px;
+    border:0;
+    border-radius:50%;
+    background:#000b;
+    color:#fff;
+    z-index:2;
+}
+
+.popup-content{
+    min-height:100px;
+}
+
+/* LOADING */
+
+.loading{
+    text-align:center;
+    padding:50px;
+    color:#777;
+}
+
+.spinner{
+    width:35px;
+    height:35px;
+    border:3px solid #333;
+    border-top-color:var(--accent);
+    border-radius:50%;
+    margin:0 auto 15px;
+    animation:spin .7s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .header{
+        flex-wrap:wrap;
+    }
+
+    .logo{
+        font-size:17px;
+    }
+
+    .search{
+        width:100%;
+        order:3;
+    }
+
+    main{
+        padding-top:15px;
+    }
+
+    .apps{
+        grid-template-columns:1fr;
+    }
+
+    .app-card{
+        border-radius:15px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="header">
+
+    <div class="logo">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+        متجر التطبيقات
+    </div>
+
+    <div class="search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+            id="search"
+            type="search"
+            placeholder="ابحث عن تطبيق..."
+        >
+    </div>
+
+</div>
+
+</header>
+
+
+<main>
+
+    <!-- الإعلانات -->
+    <section id="ads" class="ads"></section>
+
+    <div class="section-title">
+        <i class="fa-solid fa-layer-group"></i>
+        التطبيقات
+    </div>
+
+    <section id="apps" class="apps">
+
+        <div class="loading">
+            <div class="spinner"></div>
+            جاري تحميل التطبيقات...
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- الإعلان السفلي -->
+
+<div id="bottomAd" class="bottom-ad"></div>
+
+
+<!-- الإعلان المنبثق -->
+
+<div id="popup" class="popup">
+
+    <div class="popup-box">
+
+        <button class="popup-close" onclick="closePopup()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div id="popupContent" class="popup-content"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   إعدادات GitHub
+========================================================= */
+
+const CONFIG = {
+
+    owner: "YOUR_GITHUB_USERNAME",
+
+    repo: "YOUR_GITHUB_REPOSITORY",
+
+    branch: "main",
+
+    appsFile: "apps.json",
+
+    adsFile: "ads.json"
+
+};
+
+
+/* =========================================================
+   روابط GitHub
+========================================================= */
+
+const RAW = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;
+
+const APPS_URL = `${RAW}/${CONFIG.appsFile}`;
+
+const ADS_URL = `${RAW}/${CONFIG.adsFile}`;
+
+
+/* =========================================================
+   تحميل JSON
+========================================================= */
+
+async function fetchJSON(url){
+
+    const response = await fetch(
+        url + "?t=" + Date.now(),
+        {
+            cache:"no-store"
+        }
+    );
+
+    if(!response.ok){
+        throw new Error("HTTP " + response.status);
+    }
+
+    return await response.json();
+}
+
+
+/* =========================================================
+   التطبيقات
+========================================================= */
+
+let applications = [];
+
+
+async function loadApps(){
+
+    const container = document.getElementById("apps");
+
+    try{
+
+        applications = await fetchJSON(APPS_URL);
+
+        renderApps(applications);
+
+    }catch(error){
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="empty">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <br><br>
+                تعذر تحميل التطبيقات
+            </div>
+        `;
+
+    }
+
+}
+
+
+function renderApps(list){
+
+    const container = document.getElementById("apps");
+
+    if(!list.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                لا توجد تطبيقات
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = list.map((app,index)=>`
+
+        <article class="app-card">
+
+            <div class="app-top">
+
+                <img
+                    class="app-icon"
+                    src="${safe(app.icon)}"
+                    alt=""
+                    onerror="this.src='https://dummyimage.com/200x200/222/fff&text=APP'"
+                >
+
+                <div>
+
+                    <div class="app-name">
+                        ${safe(app.name)}
+                    </div>
+
+                    <div class="version">
+                        الإصدار ${safe(app.version)}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="description">
+                ${safe(app.description || "لا يوجد وصف")}
+            </div>
+
+
+            <div class="buttons">
+
+                <a
+                    class="btn btn-download"
+                    href="${safe(app.download)}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    <i class="fa-solid fa-download"></i>
+                    تحميل
+                </a>
+
+
+                ${
+                    app.releases && app.releases.length
+                    ?
+                    `
+                    <button
+                        class="btn btn-old"
+                        onclick="toggleReleases(${index})"
+                    >
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        السابق
+                    </button>
+                    `
+                    :
+                    ""
+                }
+
+            </div>
+
+
+            ${
+                app.releases && app.releases.length
+                ?
+                `
+                <div
+                    class="old-releases"
+                    id="releases-${index}"
+                >
+
+                    ${app.releases.map(release=>`
+
+                        <div class="old-release">
+
+                            <div class="old-info">
+
+                                <span class="old-version">
+                                    ${safe(release.version)}
+                                </span>
+
+                                <span class="old-date">
+                                    ${safe(release.date || "")}
+                                </span>
+
+                            </div>
+
+                            <a
+                                class="old-download"
+                                href="${safe(release.download)}"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+
+                        </div>
+
+                    `).join("")}
+
+                </div>
+                `
+                :
+                ""
+            }
+
+        </article>
+
+    `).join("");
+
+}
+
+
+function toggleReleases(index){
+
+    const box = document.getElementById("releases-" + index);
+
+    if(!box) return;
+
+    box.style.display =
+        box.style.display === "block"
+        ? "none"
+        : "block";
+
+}
+
+
+/* =========================================================
+   البحث
+========================================================= */
+
+document.getElementById("search").addEventListener(
+    "input",
+    function(){
+
+        const query = this.value.trim().toLowerCase();
+
+        const filtered = applications.filter(app=>{
+
+            return (
+                String(app.name || "")
+                .toLowerCase()
+                .includes(query)
+            );
+
+        });
+
+        renderApps(filtered);
+
+    }
+);
+
+
+/* =========================================================
+   نظام الإعلانات
+========================================================= */
+
+async function loadAds(){
+
+    try{
+
+        const data = await fetchJSON(ADS_URL);
+
+        renderAds(data);
+
+    }catch(error){
+
+        console.error("Ads:",error);
+
+    }
+
+}
+
+
+function renderAds(data){
+
+    if(!data || data.enabled === false) return;
+
+
+    /* إعلانات علوية */
+
+    if(Array.isArray(data.top)){
+
+        const container = document.getElementById("ads");
+
+        data.top.forEach(ad=>{
+
+            if(ad.enabled === false) return;
+
+            const element = createAd(ad);
+
+            if(element){
+
+                container.appendChild(element);
+
+            }
+
+        });
+
+    }
+
+
+    /* إعلان سفلي */
+
+    if(data.bottom){
+
+        const element = createAd(data.bottom);
+
+        if(element){
+
+            document.getElementById("bottomAd")
+            .appendChild(element);
+
+        }
+
+    }
+
+
+    /* إعلان منبثق */
+
+    if(data.popup && data.popup.enabled !== false){
+
+        setTimeout(()=>{
+
+            showPopup(data.popup);
+
+        }, Number(data.popup.delay || 3000));
+
+    }
+
+}
+
+
+/* =========================================================
+   إنشاء الإعلان
+========================================================= */
+
+function createAd(ad){
+
+    const wrapper = document.createElement("div");
+
+    wrapper.className = "ad";
+
+
+    /* صورة */
+
+    if(ad.type === "image"){
+
+        const link = document.createElement("a");
+
+        link.href = ad.url || "#";
+
+        link.target = "_blank";
+
+        link.rel = "noopener";
+
+
+        const img = document.createElement("img");
+
+        img.src = ad.image;
+
+        img.alt = ad.alt || "إعلان";
+
+
+        link.appendChild(img);
+
+        wrapper.appendChild(link);
+
+    }
+
+
+    /* بانر HTML */
+
+    else if(ad.type === "html"){
+
+        const iframe = document.createElement("iframe");
+
+        iframe.className = "ad-html";
+
+        iframe.setAttribute(
+            "sandbox",
+            "allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+        );
+
+        iframe.srcdoc = ad.html || "";
+
+        wrapper.appendChild(iframe);
+
+    }
+
+
+    /* رابط */
+
+    else if(ad.type === "link"){
+
+        const link = document.createElement("a");
+
+        link.href = ad.url || "#";
+
+        link.target = "_blank";
+
+        link.rel = "noopener";
+
+        link.style.display = "block";
+
+        link.style.padding = "20px";
+
+        link.innerHTML = `
+
+            <strong>${safe(ad.title || "إعلان")}</strong>
+
+            <div style="color:#888;margin-top:5px">
+                ${safe(ad.description || "")}
+            </div>
+
+        `;
+
+        wrapper.appendChild(link);
+
+    }
+
+
+    /* إغلاق */
+
+    if(ad.closable !== false){
+
+        const close = document.createElement("button");
+
+        close.className = "ad-close";
+
+        close.innerHTML = "×";
+
+        close.onclick = ()=>{
+
+            wrapper.remove();
+
+        };
+
+        wrapper.appendChild(close);
+
+    }
+
+
+    return wrapper;
+
+}
+
+
+/* =========================================================
+   الإعلان المنبثق
+========================================================= */
+
+function showPopup(ad){
+
+    const popup = document.getElementById("popup");
+
+    const content = document.getElementById("popupContent");
+
+
+    content.innerHTML = "";
+
+
+    if(ad.type === "image"){
+
+        const a = document.createElement("a");
+
+        a.href = ad.url || "#";
+
+        a.target = "_blank";
+
+        a.rel = "noopener";
+
+
+        const img = document.createElement("img");
+
+        img.src = ad.image;
+
+        img.style.width = "100%";
+
+
+        a.appendChild(img);
+
+        content.appendChild(a);
+
+    }
+
+
+    else if(ad.type === "html"){
+
+        const iframe = document.createElement("iframe");
+
+        iframe.className = "ad-html";
+
+        iframe.style.minHeight =
+            (ad.height || 300) + "px";
+
+        iframe.setAttribute(
+            "sandbox",
+            "allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+        );
+
+        iframe.srcdoc = ad.html || "";
+
+        content.appendChild(iframe);
+
+    }
+
+
+    popup.style.display = "flex";
+
+}
+
+
+function closePopup(){
+
+    document.getElementById("popup")
+    .style.display = "none";
+
+}
+
+
+/* =========================================================
+   حماية النصوص المعروضة
+========================================================= */
+
+function safe(value){
+
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   تشغيل
+========================================================= */
+
+loadApps();
+
+loadAds();
+
+</script>
+
+</body>
+</html>
