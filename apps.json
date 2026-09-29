@@ -1,27 +1,15 @@
 [
   {
-    "id": "app1",
     "name": "تطبيق تجريبي",
-    "version": "2.5.0",
-    "icon": "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_GITHUB_REPOSITORY/main/images/app1.png",
-    "description": "هذا وصف التطبيق ويمكن تغييره من GitHub.",
-    "download": "https://github.com/YOUR_GITHUB_USERNAME/YOUR_GITHUB_REPOSITORY/releases/download/v2.5.0/app.apk",
-
+    "version": "1.0.0",
+    "icon": "images/app.png",
+    "description": "وصف التطبيق هنا",
+    "file": "apps/app.apk",
     "releases": [
       {
-        "version": "2.4.0",
-        "date": "2026-08-10",
-        "download": "https://github.com/YOUR_GITHUB_USERNAME/YOUR_GITHUB_REPOSITORY/releases/download/v2.4.0/app.apk"
-      },
-      {
-        "version": "2.3.0",
-        "date": "2026-07-01",
-        "download": "https://github.com/YOUR_GITHUB_USERNAME/YOUR_GITHUB_REPOSITORY/releases/download/v2.3.0/app.apk"
-      },
-      {
-        "version": "2.2.0",
-        "date": "2026-06-15",
-        "download": "https://github.com/YOUR_GITHUB_USERNAME/YOUR_GITHUB_REPOSITORY/releases/download/v2.2.0/app.apk"
+        "version": "0.9.0",
+        "date": "2026-08-01",
+        "file": "apps/app-old.apk"
       }
     ]
   }
