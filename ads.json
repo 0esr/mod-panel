@@ -1,0 +1,62 @@
+{
+  "enabled": true,
+
+  "top": [
+
+    {
+      "enabled": true,
+      "type": "image",
+
+      "image": "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_GITHUB_REPOSITORY/main/ads/banner.jpg",
+
+      "url": "https://example.com",
+
+      "alt": "إعلان",
+
+      "closable": true
+    },
+
+    {
+      "enabled": true,
+      "type": "link",
+
+      "title": "عرض جديد",
+
+      "description": "اضغط هنا لمعرفة التفاصيل.",
+
+      "url": "https://example.com",
+
+      "closable": true
+    }
+
+  ],
+
+
+  "bottom": {
+
+    "enabled": true,
+
+    "type": "image",
+
+    "image": "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_GITHUB_REPOSITORY/main/ads/bottom.jpg",
+
+    "url": "https://example.com",
+
+    "closable": true
+  },
+
+
+  "popup": {
+
+    "enabled": true,
+
+    "type": "image",
+
+    "image": "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_GITHUB_REPOSITORY/main/ads/popup.jpg",
+
+    "url": "https://example.com",
+
+    "delay": 5000
+  }
+
+}
