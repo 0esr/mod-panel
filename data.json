@@ -2,9 +2,9 @@
   "name": "Kent",
   "title": "🇸🇦",
   "bio": "✦ صانع محتوى تقني ✦ شغوف بالتصميم وتجربة المستخدم ✦ أشارك المعرفة عبر حساباتي ✦",
-  "cover": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=80",
+  "cover": "https://api.dicebear.com/9.x/avataaars/png?seed=Saudi?w=1600&auto=format&fit=crop&q=80",
   "avatar": "https://cdn.jsdelivr.net/gh/0esr/mod-panel@main/1.mp3=300&auto=format&fit=crop&q=80",
-  "music": "https://github.com/0esr/mod-panel/raw/11fa7a58404d6e130cc484b0cfcb7813b5c50972/1.mp3",
+  "music": "https://cdn.jsdelivr.net/gh/0esr/mod-panel@main/1.mp3",
   "accounts": [
     { "label": "تويتر",    "icon": "fab fa-twitter",        "url": "https://twitter.com/" },
     { "label": "انستغرام", "icon": "fab fa-instagram",      "url": "https://instagram.com/" },
