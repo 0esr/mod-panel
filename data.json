@@ -1,9 +1,9 @@
 {
   "name": "Kent",
-  "title": "🇸🇦",
+  "title": "مطوّر واجهات · مصمم",
   "bio": "✦ صانع محتوى تقني ✦ شغوف بالتصميم وتجربة المستخدم ✦ أشارك المعرفة عبر حساباتي ✦",
   "cover": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&auto=format&fit=crop&q=80",
-  "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e=300&auto",
+  "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&auto=format&fit=crop&crop=faces&q=80",
   "music": "https://cdn.jsdelivr.net/gh/0esr/mod-panel@main/1.mp3",
   "accounts": [
     { "label": "تويتر",    "icon": "fab fa-twitter",        "url": "https://twitter.com/" },
