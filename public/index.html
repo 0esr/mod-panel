@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171b1a"><title>CINEMA — منصة المشاهدة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+:root{--bg:#171b1a;--glass:rgba(225,235,228,.1);--line:#ffffff24;--text:#f5f5f1;--muted:#aeb8b0;--gold:#e7c77d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Cairo,sans-serif;min-height:100vh}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid #dce7dc;outline-offset:2px}.ambient{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at 15% 20%,#56685b45,transparent 45%),#171b1a}.wrap{width:min(1450px,100%);margin:auto;padding:20px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.logo{font:700 25px Oswald,sans-serif;letter-spacing:3px}.logo span{color:#a9b9ab}.top-actions{display:flex;gap:8px}.btn{border:1px solid var(--line);background:#ffffff0b;color:white;padding:10px 14px;border-radius:8px;transition:.2s}.btn:hover{background:#ffffff20}.primary{background:#e2e9e1;color:#171b1a;border-color:#e2e9e1;font-weight:800}.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;direction:ltr;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#11161388;backdrop-filter:blur(18px);box-shadow:0 25px 90px #0004}.hero{position:relative;direction:ltr;min-height:600px;display:flex;align-items:center;overflow:hidden}.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.8}.shade{position:absolute;inset:0;background:linear-gradient(90deg,#111613c9,transparent 95%),linear-gradient(0deg,#111613f5,transparent 85%)}.hero-content{position:relative;padding:38px 42px;width:min(620px,100%)}.brand{font:700 22px Oswald,sans-serif;margin-bottom:100px}.brand span{opacity:.55}.eyebrow{font:12px Oswald,sans-serif;letter-spacing:3px;color:#d4ded5}.series{font:700 clamp(42px,6vw,78px)/1 Oswald,sans-serif;margin:14px 0 20px}.desc{font-size:13px;line-height:2;color:#e0e6e0;max-width:460px}.meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font:13px Oswald,sans-serif;margin:22px 0}.rating{border:1px solid #ffffff65;padding:3px 8px}.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.play{width:54px;height:54px;border-radius:50%;border:0;background:white;color:#171b1a;font-size:18px}.episode-big{display:flex;align-items:center;gap:14px;margin-top:36px}.num-big{font:600 56px Oswald,sans-serif}.date{font:12px Oswald,sans-serif;line-height:1.8}.date span{display:block;color:#bdc9bf}.panel{direction:rtl;background:#121715eb;min-width:0;display:flex;flex-direction:column;border-left:1px solid #ffffff13}.panel-head{display:flex;align-items:center;justify-content:space-between;padding:20px;border-bottom:1px solid #ffffff12}.sub{font-size:11px;color:var(--muted)}.filters{display:flex;gap:7px;padding:12px 16px}.filter{font-size:11px;border:1px solid #ffffff20;background:transparent;color:#c4cec5;border-radius:6px;padding:7px 10px}.filter.active{background:#e0e8df;color:#151a16}.list{padding:0 13px 16px;max-height:470px;overflow:auto}.episode{display:grid;grid-template-columns:1fr 92px;gap:10px;align-items:center;padding:10px 5px;border:1px solid transparent;border-radius:8px;cursor:pointer}.episode:hover,.episode.active{background:#ffffff0d;border-color:#ffffff1c}.ep-num{font:18px Oswald,sans-serif}.ep-name{font-size:11px;line-height:1.7}.ep-duration{font-size:9px;color:#98a49a}.thumb{position:relative;height:63px;overflow:hidden;border-radius:5px}.thumb img{width:100%;height:100%;object-fit:cover}.panel-foot{margin-top:auto;border-top:1px solid #ffffff12;padding:15px 18px;font-size:10px;color:#a9b2aa;display:flex;justify-content:space-between}.footer{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:10px;color:#8d978f;padding:15px 4px}.footer a{color:#d6dfd6;cursor:pointer}.badge{display:inline-flex;align-items:center;gap:6px;border-radius:30px;padding:4px 9px;font-size:10px;font-weight:800;background:#ffffff13;border:1px solid #ffffff20}.badge.admin{background:#e7c77d18;border-color:#e7c77d65;color:var(--gold)}.modal-bg{display:none;position:fixed;inset:0;z-index:10;background:#050706d9;backdrop-filter:blur(14px);padding:18px;overflow:auto;place-items:center}.modal-bg.open{display:grid}.modal{width:min(640px,100%);background:#1a211e;border:1px solid #ffffff24;border-radius:15px;padding:22px;box-shadow:0 30px 100px #0008;max-height:calc(100dvh - 36px);overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modal-head h2{font-size:18px;margin:0}.close{background:#ffffff0b;color:white;border:1px solid #ffffff20;border-radius:7px;width:38px;height:38px}.form{display:grid;gap:13px}.field{display:grid;gap:6px}.field label{font-size:12px;color:#cbd4cc}.field input{width:100%;border:1px solid #ffffff20;background:#ffffff08;color:white;border-radius:8px;padding:12px;min-width:0}.form .btn{width:100%}.muted{font-size:12px;color:#aeb8b0;line-height:1.9}.link{color:#e4d19a;cursor:pointer;text-decoration:underline;font-size:12px}.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#ffffff08;border:1px solid #ffffff15;border-radius:10px;padding:15px}.stat strong{font-size:24px;display:block}.stat span{font-size:11px;color:#b6c0b7}.user-row{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #ffffff13;padding:12px 0}.user-row:last-child{border:0}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;z-index:50;pointer-events:none;background:#e2e9e1;color:#171b1a;padding:11px 18px;border-radius:8px;font-size:12px;transition:.2s;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.account-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.hidden{display:none!important}
+@media(max-width:900px){.layout{grid-template-columns:minmax(0,1fr) 260px}.hero{min-height:570px}.hero-content{padding:28px}.brand{margin-bottom:95px}.episode{grid-template-columns:1fr 76px}.thumb{height:55px}}
+@media(max-width:680px){.wrap{padding:10px}.top{margin-bottom:10px}.logo{font-size:21px}.top-actions{gap:5px}.btn{padding:9px 10px;font-size:12px}.layout{display:flex;flex-direction:column}.hero{min-height:560px}.hero>img{object-position:58% center}.shade{background:linear-gradient(0deg,#111613 0%,#1116138c 55%,#1116130b 100%)}.hero-content{padding:22px 20px;width:100%;align-self:flex-end}.brand{margin-bottom:140px;font-size:19px}.series{font-size:clamp(42px,12vw,62px)}.desc{font-size:12px}.episode-big{margin-top:27px}.num-big{font-size:48px}.panel{border-left:0;border-top:1px solid #ffffff14}.list{max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:3px 7px}.episode{grid-template-columns:1fr 74px;padding:8px 4px}.thumb{height:52px}.panel-foot{padding:13px 16px}.profile-grid{grid-template-columns:1fr 1fr}.footer{font-size:9px}}
+@media(max-width:390px){.hero{min-height:520px}.hero-content{padding:18px 15px}.brand{margin-bottom:120px}.series{font-size:41px}.list{grid-template-columns:1fr}.top-actions .btn{padding:8px}.profile-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<main class="wrap">
+<header class="top">
+  <div class="logo">CINE<span>MA.</span></div>
+  <div class="top-actions">
+    <button class="btn" id="accountBtn"><i class="fa-regular fa-user"></i> <span id="accountText">دخول</span></button>
+    <button class="btn" id="menuBtn" aria-label="القائمة"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</header>
+<section class="layout">
+  <div class="hero">
+    <img id="heroImage" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1500&q=85" alt="خلفية سينمائية">
+    <div class="shade"></div>
+    <div class="hero-content">
+      <div class="brand">CINEMA <span>ORIGINAL</span></div>
+      <div class="eyebrow">A STORY THAT CHANGED HISTORY</div>
+      <h1 class="series">CHERNOBYL</h1>
+      <p class="desc" id="description">دراما تاريخية عن كارثة تشيرنوبل، والأشخاص الذين واجهوا الحقيقة والعواقب الصعبة لقراراتهم.</p>
+      <div class="meta"><span>2019</span><span>•</span><span>DRAMA / HISTORY</span><span class="rating">16+</span><span>HD</span></div>
+      <div class="actions">
+        <button class="play" id="playBtn" aria-label="تشغيل"><i class="fa-solid fa-play"></i></button>
+        <button class="btn" id="detailsBtn"><i class="fa-solid fa-circle-info"></i> التفاصيل</button>
+        <button class="btn" id="favoriteBtn"><i class="fa-regular fa-bookmark"></i> <span>قائمتي</span></button>
+      </div>
+      <div class="episode-big"><div class="num-big" id="bigNum">01</div><div class="date">EPISODE ONE<span id="episodeSub">THE BEGINNING</span></div></div>
+    </div>
+  </div>
+  <aside class="panel">
+    <div class="panel-head"><div><strong>قائمة الحلقات</strong><div class="sub" id="epCount">الموسم الأول · 5 حلقات</div></div><button class="btn" id="searchBtn" aria-label="بحث"><i class="fa-solid fa-magnifying-glass"></i></button></div>
+    <div class="filters"><button class="filter active" data-filter="all">الكل</button><button class="filter" data-filter="watched">تمت مشاهدتها</button><button class="filter" data-filter="favorites">المفضلة</button></div>
+    <div id="searchArea" class="hidden" style="padding:0 14px 12px"><input id="searchInput" placeholder="ابحث عن حلقة..." style="width:100%;padding:10px;background:#ffffff0b;border:1px solid #ffffff20;color:white;border-radius:7px"></div>
+    <div class="list" id="episodeList"></div>
+    <div class="panel-foot"><span><i class="fa-solid fa-circle" style="color:#9dc9a5;font-size:7px"></i> جاهز للمشاهدة</span><span id="epPosition">01 / 05</span></div>
+  </aside>
+</section>
+<footer class="footer"><span>© 2026 CINEMA STUDIO</span><span>تجربة مشاهدة سينمائية <i class="fa-solid fa-film"></i></span><a id="aboutLink">عن المنصة</a></footer>
+</main>
+
+<div class="modal-bg" id="modalBg" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <section class="modal"><div class="modal-head"><h2 id="modalTitle">CINEMA</h2><button class="close" id="closeModal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button></div><div id="modalBody"></div></section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const episodes=[
+{n:1,name:"انفجار المفاعل",duration:"65 دقيقة",subtitle:"THE BEGINNING",image:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=80",desc:"تبدأ الحكاية في ليلة استثنائية، حين يقع حدث يغير حياة الجميع ويكشف أسراراً لم تكن في الحسبان."},
+{n:2,name:"من فضلك ابق هادئاً",duration:"66 دقيقة",subtitle:"THE AFTERMATH",image:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=80",desc:"وسط حالة من الغموض، تبدأ الحقائق بالظهور بينما يحاول الجميع فهم ما حدث."},
+{n:3,name:"افتح واسعاً يا أرض",duration:"62 دقيقة",subtitle:"THE CONSEQUENCES",image:"https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1000&q=80",desc:"قرارات صعبة ومواجهة مع نتائج لا يمكن تجاهلها، في رحلة نحو الحقيقة."},
+{n:4,name:"سعادة البشرية جمعاء",duration:"65 دقيقة",subtitle:"THE INVESTIGATION",image:"https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1000&q=80",desc:"تتكشف تفاصيل جديدة، ويصبح البحث عن الإجابات أهم من أي وقت مضى."},
+{n:5,name:"الذاكرة الأبدية",duration:"72 دقيقة",subtitle:"THE FINAL TRUTH",image:"https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=80",desc:"تصل الرحلة إلى لحظتها الحاسمة، وتظهر الحقيقة التي ستبقى في الذاكرة."}
+];
+const $=id=>document.getElementById(id);
+let current=1, filter="all", me=null, favorites=[], watched=[];
+async function api(url,options={}){
+  const response=await fetch(url,{credentials:"same-origin",headers:{"Content-Type":"application/json",...(options.headers||{})},...options});
+  let data={};try{data=await response.json()}catch{}
+  if(!response.ok)throw new Error(data.error||"حدث خطأ، حاول مرة أخرى.");
+  return data;
+}
+function toast(s){$("toast").textContent=s;$("toast").classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>$("toast").classList.remove("show"),2500)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function badge(user){return user.role==="admin"?'<span class="badge admin"><i class="fa-solid fa-crown"></i> ADMIN</span>':'<span class="badge">MEMBER</span>'}
+function renderAccount(){
+  $("accountText").textContent=me?me.username:"دخول";
+  $("accountBtn").innerHTML=me?`${badge(me)} <span>${esc(me.username)}</span>`:'<i class="fa-regular fa-user"></i> دخول';
+}
+function renderEpisodes(){
+ const q=$("searchInput").value.trim().toLowerCase();
+ const filtered=episodes.filter(e=>{
+  const okQ=(e.name+" "+e.n).toLowerCase().includes(q);
+  const okF=filter==="all"||(filter==="watched"&&watched.includes(e.n))||(filter==="favorites"&&favorites.includes(e.n));
+  return okQ&&okF;
+ });
+ $("episodeList").innerHTML=filtered.map(e=>`<article class="episode ${e.n===current?"active":""}" tabindex="0" role="button" data-id="${e.n}">
+ <div><span class="ep-num">${String(e.n).padStart(2,"0")}</span><div class="ep-name">${esc(e.name)}</div><div class="ep-duration">${e.duration}${watched.includes(e.n)?" · تمت المشاهدة":""}</div></div>
+ <div class="thumb"><img loading="lazy" src="${e.image}" alt="${esc(e.name)}"></div></article>`).join("")||'<p class="muted">ما فيه نتائج.</p>';
+ $("epPosition").textContent=String(current).padStart(2,"0")+" / "+String(episodes.length).padStart(2,"0");
+}
+function selectEpisode(n){const e=episodes.find(x=>x.n===n);if(!e)return;current=n;$("heroImage").src=e.image;$("description").textContent=e.desc;$("bigNum").textContent=String(n).padStart(2,"0");$("episodeSub").textContent=e.subtitle;renderEpisodes()}
+$("episodeList").addEventListener("click",e=>{const item=e.target.closest("[data-id]");if(item)selectEpisode(Number(item.dataset.id))});
+$("episodeList").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("[data-id]")){e.preventDefault();selectEpisode(Number(e.target.dataset.id))}});
+document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));renderEpisodes()});
+$("searchBtn").onclick=()=>{$("searchArea").classList.toggle("hidden");$("searchInput").focus()};
+$("searchInput").oninput=renderEpisodes;
+function openModal(title,html){$("modalTitle").textContent=title;$("modalBody").innerHTML=html;$("modalBg").classList.add("open");document.body.style.overflow="hidden"}
+function closeModal(){$("modalBg").classList.remove("open");document.body.style.overflow=""}
+$("closeModal").onclick=closeModal;$("modalBg").onclick=e=>{if(e.target===$("modalBg"))closeModal()};document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+function authForm(mode="login"){
+ const register=mode==="register";
+ openModal(register?"إنشاء حساب":"تسجيل الدخول",`<form id="authForm" class="form">
+ ${register?'<div class="field"><label for="username">اسم المستخدم</label><input id="username" name="username" required minlength="2" maxlength="30" autocomplete="username"></div>':""}
+ <div class="field"><label for="email">البريد الإلكتروني</label><input id="email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
+ <div class="field"><label for="password">كلمة المرور ${register?"(10 أحرف على الأقل)":""}</label><input id="password" name="password" type="password" required minlength="${register?10:1}" maxlength="128" autocomplete="${register?"new-password":"current-password"}"></div>
+ <button class="btn primary" type="submit">${register?"إنشاء الحساب":"دخول آمن"}</button>
+ <p class="muted">${register?"عندك حساب؟":"ما عندك حساب؟"} <a class="link" id="switchAuth">${register?"سجّل دخولك":"أنشئ حسابًا"}</a></p>
+ </form>`);
+ $("switchAuth").onclick=()=>authForm(register?"login":"register");
+ $("authForm").onsubmit=async ev=>{
+  ev.preventDefault();const btn=ev.submitter;btn.disabled=true;btn.textContent="جارٍ التحقق...";
+  const body={email:$("email").value,password:$("password").value};if(register)body.username=$("username").value;
+  try{const data=await api(register?"/api/register":"/api/login",{method:"POST",body:JSON.stringify(body)});me=data.user;favorites=data.favorites||[];watched=data.watched||[];await refreshMe();closeModal();toast("أهلًا "+me.username);renderAccount();renderEpisodes()}
+  catch(err){toast(err.message)}finally{btn.disabled=false;btn.textContent=register?"إنشاء الحساب":"دخول آمن"}
+ };
+}
+$("accountBtn").onclick=()=>me?profile():authForm("login");
+async function refreshMe(){const d=await api("/api/me");me=d.user;favorites=d.favorites||[];watched=d.watched||[];renderAccount();renderEpisodes()}
+function profile(){
+ if(!me)return authForm();
+ openModal("حسابي",`<div style="display:grid;gap:16px">
+ <div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+ <div style="width:60px;height:60px;border-radius:50%;overflow:hidden;background:#ffffff15;display:grid;place-items:center">${me.avatar?`<img src="${esc(me.avatar)}" alt="" style="width:100%;height:100%;object-fit:cover">`:'<i class="fa-solid fa-user" style="font-size:24px"></i>'}</div>
+ <div><strong>${esc(me.username)}</strong><div class="sub">${esc(me.email)}</div><div style="margin-top:7px">${badge(me)}</div></div>
+ </div>
+ <div class="profile-grid"><div class="stat"><strong>${favorites.length}</strong><span>المفضلة</span></div><div class="stat"><strong>${watched.length}</strong><span>تمت مشاهدتها</span></div></div>
+ <form class="form" id="profileForm"><div class="field"><label>اسم المستخدم</label><input id="profileName" value="${esc(me.username)}" required minlength="2" maxlength="30"></div>
+ <div class="field"><label>رابط الصورة الشخصية (اختياري)</label><input id="profileAvatar" type="url" value="${esc(me.avatar||"")}" placeholder="https://..."></div><button class="btn primary">حفظ التعديلات</button></form>
+ ${me.role==="admin"?'<button class="btn" id="adminBtn"><i class="fa-solid fa-crown" style="color:#e7c77d"></i> لوحة تحكم الأدمن</button>':""}
+ <button class="btn" id="logoutBtn">تسجيل الخروج</button></div>`);
+ $("profileForm").onsubmit=async e=>{e.preventDefault();try{const d=await api("/api/profile",{method:"PATCH",body:JSON.stringify({username:$("profileName").value,avatar:$("profileAvatar").value})});me=d.user;renderAccount();profile();toast("تم حفظ الملف الشخصي")}catch(err){toast(err.message)}};
+ $("logoutBtn").onclick=async()=>{try{await api("/api/logout",{method:"POST"});me=null;favorites=[];watched=[];renderAccount();renderEpisodes();closeModal();toast("تم تسجيل الخروج")}catch(e){toast(e.message)}};
+ if(me.role==="admin")$("adminBtn").onclick=adminPanel;
+}
+async function adminPanel(){
+ try{
+  const [statsData,userData]=await Promise.all([api("/api/admin/stats"),api("/api/admin/users")]);
+  openModal("لوحة تحكم الأدمن",`<div style="display:grid;gap:15px">
+  <div class="profile-grid"><div class="stat"><strong>${statsData.users}</strong><span>إجمالي الحسابات</span></div><div class="stat"><strong>${statsData.admins}</strong><span>حسابات الإدارة</span></div><div class="stat"><strong>${statsData.disabled}</strong><span>حسابات معطلة</span></div></div>
+  <h3 style="font-weight:800">إدارة المستخدمين</h3><div id="adminUsers">${userData.users.map(u=>`<div class="user-row"><div style="min-width:0"><strong>${esc(u.username)}</strong><div class="sub">${esc(u.email)}</div><div style="margin-top:4px">${u.role==="admin"?'<span class="badge admin">ADMIN</span>':'<span class="badge">MEMBER</span>'} ${u.disabled?'<span class="badge">معطل</span>':""}</div></div><div style="display:grid;gap:6px"><button class="btn" data-role="${u.id}" data-next="${u.role==="admin"?"user":"admin"}">${u.role==="admin"?"إزالة الأدمن":"ترقية لأدمن"}</button><button class="btn" data-disable="${u.id}" data-state="${!u.disabled}">${u.disabled?"تفعيل":"تعطيل"}</button></div></div>`).join("")||'<p class="muted">لا يوجد مستخدمون.</p>'}</div>
+  <p class="muted">صلاحيات الأدمن تُفحص على الخادم. لا يمكن ترقية نفسك من واجهة التسجيل العادية.</p></div>`);
+  $("adminUsers").addEventListener("click",async e=>{
+   const roleBtn=e.target.closest("[data-role]"),disableBtn=e.target.closest("[data-disable]");
+   if(!roleBtn&&!disableBtn)return;
+   const id=(roleBtn||disableBtn).dataset[roleBtn?"role":"disable"];
+   const body=roleBtn?{role:roleBtn.dataset.next}:{disabled:disableBtn.dataset.state==="true"};
+   if(!confirm(roleBtn?"تأكيد تغيير صلاحية هذا الحساب؟":"تأكيد تغيير حالة الحساب؟"))return;
+   try{await api("/api/admin/users/"+id,{method:"PATCH",body:JSON.stringify(body)});toast("تم تحديث الحساب");adminPanel()}catch(err){toast(err.message)}
+  });
+ }catch(e){toast(e.message)}
+}
+$("favoriteBtn").onclick=async()=>{
+ if(!me)return authForm("login");
+ try{const d=await api("/api/favorites/"+current,{method:"POST"});favorites=d.favorite?[...new Set([...favorites,current])]:favorites.filter(n=>n!==current);$("favoriteBtn").innerHTML=d.favorite?'<i class="fa-solid fa-bookmark"></i> محفوظ':'<i class="fa-regular fa-bookmark"></i> قائمتي';renderEpisodes();toast(d.favorite?"أضيفت للمفضلة":"أزيلت من المفضلة")}catch(e){toast(e.message)}
+};
+$("playBtn").onclick=async()=>{
+ if(!me){authForm("login");return}
+ try{const d=await api("/api/watched/"+current,{method:"POST"});watched=d.watched?[...new Set([...watched,current])]:watched.filter(n=>n!==current);renderEpisodes();toast(d.watched?"سُجلت الحلقة كمشاهدة":"أزيلت من سجل المشاهدة")}
+ catch(e){toast(e.message)}
+ openModal("مشغل الحلقة",`<div style="aspect-ratio:16/9;display:grid;place-items:center;text-align:center;padding:20px;background:linear-gradient(135deg,#37443c,#101412);border-radius:10px"><div><i class="fa-solid fa-circle-play" style="font-size:44px"></i><h3 style="margin:12px 0">${esc(episodes[current-1].name)}</h3><p class="muted">هذا مشغل تجريبي. أضف رابط فيديو تملك حقوق عرضه لتشغيل محتوى فعلي.</p></div></div>`);
+};
+$("detailsBtn").onclick=()=>openModal("عن المسلسل",'<p class="muted">واجهة تجريبية لمسلسل درامي تاريخي. الصور والأوصاف هنا لأغراض العرض، وليست محتوى بثًا مرخصًا.</p>');
+$("aboutLink").onclick=()=> $("detailsBtn").click();
+$("menuBtn").onclick=()=>openModal("القائمة",`<div class="form"><button class="btn" id="menuProfile">حسابي</button><button class="btn" id="menuEpisodes">الحلقات</button><button class="btn" id="menuAdmin">لوحة الإدارة</button></div>`)&&null;
+$("menuBtn").addEventListener("click",()=>{if($("menuProfile")){$("menuProfile").onclick=()=>{closeModal();me?profile():authForm()};$("menuEpisodes").onclick=()=>{closeModal();document.querySelector(".panel").scrollIntoView({behavior:"smooth"})};$("menuAdmin").onclick=()=>{closeModal();me?.role==="admin"?adminPanel():toast("هذه الخاصية للأدمن فقط")}}});
+(async()=>{try{await refreshMe()}catch(e){toast("تعذر الاتصال بالخادم")}renderEpisodes()})();
+</script>
+</body></html>
